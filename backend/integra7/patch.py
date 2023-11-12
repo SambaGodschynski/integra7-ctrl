@@ -6,6 +6,7 @@ class Patch:
     pc: int
     category: str
     type: str
+    extension: str
     def __str__(self) -> str:
         return self.name
     def to_dict(self) -> dict:
