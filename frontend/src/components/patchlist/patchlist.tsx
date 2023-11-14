@@ -1,5 +1,6 @@
+import './patchlist.css';
 import { IPatch } from "../../integra7/patch";
-import { getPatches } from "../../common/rest";
+import { getPatches, setPatch } from "../../common/rest";
 import { SearchOutlined } from '@ant-design/icons';
 import React, { useRef, useState, useEffect } from 'react';
 import Highlighter from 'react-highlight-words';
@@ -138,11 +139,19 @@ export const Patchlist = function () {
     useEffect(() => {
         loadPatches();
     }, [])
-    return (<>
+    const onPatchClick = async function(patch: IPatch) {
+        await setPatch(patch.id);
+    }
+    return (<div className="patchlist">
         <Table size="small"
+            onRow={(record, rowIndex) => {
+                return {
+                    onClick: onPatchClick.bind(null, record)
+                };
+            }}
             dataSource={patches}
             columns={columns}
             pagination={{ position: ["bottomCenter"], pageSize: 20 }}
             rowKey="id"></Table>
-    </>);
+    </div>);
 }

@@ -1,0 +1,11 @@
+.patchlist tr {
+  cursor: pointer;
+}
+
+.patchlist tr:nth-child(odd) {
+  background-color: rgba(0, 128, 0, 0.24);
+}
+
+.patchlist tr:nth-child(even) {
+  background-color: rgb(147, 146, 240, 0.34)
+}
