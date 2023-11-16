@@ -3,7 +3,7 @@ import pandas as pd
 from integra7.patch import Patch
 
 def read_patches():
-    data = pd.read_excel(config.data_file, engine='odf')
+    data = pd.read_excel(config.DATA_FILE, engine='odf')
     nrows, _ = data.shape
     patches = []
     for row in range(0, nrows):

@@ -6,8 +6,8 @@ export async function getPatches(): Promise<IPatch[]> {
     return (await fetch(`${baseUrl}/api/patches`)).json();
 }
 
-export async function setPatch(id: number): Promise<void> {
-    const body = {id};
+export async function setPatch(channel: number, id: number): Promise<void> {
+    const body = {id, channel};
     return (await fetch(`${baseUrl}/api/patch`, {
         headers: {
             'Accept': 'application/json',

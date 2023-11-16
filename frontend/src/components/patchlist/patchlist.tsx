@@ -12,6 +12,8 @@ import type { FilterConfirmProps } from 'antd/es/table/interface';
 
 type DataIndex = keyof IPatch;
 
+const MidiChannel = 0; // TODO: make dynamic
+
 export const Patchlist = function () {
     const [patches, setPatches] = useState<IPatch[]>([])
     const [searchText, setSearchText] = useState('');
@@ -140,7 +142,7 @@ export const Patchlist = function () {
         loadPatches();
     }, [])
     const onPatchClick = async function(patch: IPatch) {
-        await setPatch(patch.id);
+        await setPatch(MidiChannel, patch.id);
     }
     return (<div className="patchlist">
         <Table size="small"

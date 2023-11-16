@@ -1,2 +1,4 @@
-data_file = 'data/INTEGRA-7-Sound-List.ods'
-port = 5000
+OUTPUT_DEVICE = 'DIN 3'
+INPUT_DEVICE = None
+DATA_FILE = 'data/INTEGRA-7-Sound-List.ods'
+PORT = 5000

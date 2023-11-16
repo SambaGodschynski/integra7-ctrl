@@ -3,3 +3,4 @@ odfpy
 Flask
 Flask-RESTful
 flask-cors
+python-rtmidi
