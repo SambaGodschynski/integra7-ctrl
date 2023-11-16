@@ -19,7 +19,7 @@ def post_patch():
     patch = patches[patch_id]
     output.cc(ch, 0x0, patch.msb)
     output.cc(ch, 0x20, patch.lsb)
-    output.pc(ch, patch.pc)
+    output.pc(ch, patch.pc-1)
     return jsonify({"result": "OK"})
 
 @app.route('/api/patches', methods = ['GET'])

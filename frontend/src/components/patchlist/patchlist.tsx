@@ -2,7 +2,7 @@ import './patchlist.css';
 import { IPatch } from "../../integra7/patch";
 import { getPatches, setPatch } from "../../common/rest";
 import { SearchOutlined } from '@ant-design/icons';
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, KeyboardEvent } from 'react';
 import Highlighter from 'react-highlight-words';
 import type { InputRef } from 'antd';
 import { Button, Input, Space, Table } from 'antd';
@@ -14,10 +14,13 @@ type DataIndex = keyof IPatch;
 
 const MidiChannel = 0; // TODO: make dynamic
 
-export const Patchlist = function () {
+export const Patchlist = function (props: {onSelect?: (patch:IPatch)=>void}) {
     const [patches, setPatches] = useState<IPatch[]>([])
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
+    const [selectedId, setSelectedId] = useState<number|undefined>(undefined);
+    const [page, setPage] = useState<number>(1);
+    const [pageSize, setPageSize] = useState<number>(20);
     const searchInput = useRef<InputRef>(null);
 
     const handleSearch = (
@@ -141,19 +144,71 @@ export const Patchlist = function () {
     useEffect(() => {
         loadPatches();
     }, [])
-    const onPatchClick = async function(patch: IPatch) {
+    const choosePatch = async function(patch: IPatch) {
         await setPatch(MidiChannel, patch.id);
+        setSelectedId(patch.id);
+        if (props.onSelect) {
+            props.onSelect(patch);
+        }
     }
-    return (<div className="patchlist">
+
+    const findPageOfIndex = (index:number): number => {
+        const page = Math.floor(index / pageSize) + 1;
+        return page;
+    }
+    const setNextPatch = async () => {
+        const id = Math.min((selectedId ?? 0) + 1, patches.length - 1);
+        const patch = patches[id];
+        setPage(findPageOfIndex(id));
+        await choosePatch(patch);
+    }
+    const prevNextPatch = async () => {
+        const id = Math.max((selectedId ?? 0) - 1, 0);
+        const patch = patches[id];
+        setPage(findPageOfIndex(id));
+        await choosePatch(patch);
+    }
+    const setNextPage = async () => {
+        const newPage = Math.min(page + 1, Math.floor(patches.length / pageSize));
+        setPage(newPage);
+    }
+    const setPrevPage = async () => {
+        const newPage = Math.max(page - 1, 1);
+        setPage(newPage);
+    }
+    const onKeyPressed = async function(ev: KeyboardEvent) {
+        if (ev.key === "ArrowDown") {
+            setNextPatch();
+            return;
+        }
+        if (ev.key === "ArrowUp") {
+            prevNextPatch();
+            return;
+        }
+        if (ev.key === "PageDown") {
+            setNextPage();
+            return;
+        }
+        if (ev.key === "PageUp") {
+            setPrevPage();
+            return;
+        }
+    }
+    const onPaginationChanged = (page: number, pageSize: number) => {
+        setPage(page);
+        setPageSize(pageSize);
+    }
+    return (<div className="patchlist" tabIndex={0} onKeyDown={onKeyPressed} >
         <Table size="small"
             onRow={(record, rowIndex) => {
                 return {
-                    onClick: onPatchClick.bind(null, record)
+                    onClick: choosePatch.bind(null, record)
                 };
             }}
             dataSource={patches}
             columns={columns}
-            pagination={{ position: ["bottomCenter"], pageSize: 20 }}
+            pagination={{ position: ["bottomCenter"], pageSize: pageSize, current: page, onChange: onPaginationChanged }}
+            rowClassName={(patch) => selectedId === patch.id ? 'selected' : ''}
             rowKey="id"></Table>
     </div>);
 }
