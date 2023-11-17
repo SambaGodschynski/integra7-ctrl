@@ -2,3 +2,5 @@ OUTPUT_DEVICE = 'DIN 3'
 INPUT_DEVICE = None
 DATA_FILE = 'data/INTEGRA-7-Sound-List.ods'
 PORT = 12345
+HOST = None
+DEBUG = True

@@ -71,6 +71,6 @@ if __name__=='__main__':
     patches = {x.id:x for x in read_patches()}
     print(f"{len(patches)} found")
     print ("starting server")
-    app.run(debug=True, port=config.PORT)
+    app.run(host= config.HOST, debug=config.DEBUG, port=config.PORT)
     print("shutting down")
     output.close()
