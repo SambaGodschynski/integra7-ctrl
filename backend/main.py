@@ -1,16 +1,20 @@
 #!/bin/env python3
 import config
 import rtmidi
+import os
 from data import read_patches
-from flask import Flask,jsonify,request
+from flask import Flask, jsonify,request, redirect
 from flask_cors import CORS
 from time import sleep
 from mymidi.MidiOut import MidiOut
 patches:{} = None
 output:MidiOut = None
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='/', static_folder='../frontend/build/')
 CORS(app)
 
+@app.route('/')
+def home():
+    return redirect("/index.html", code=302)
 
 @app.route('/api/patch', methods = ['POST'])
 def post_patch():
@@ -27,7 +31,6 @@ def get_patches():
     result = list(patches.values())
     result.sort(key= lambda x : x.id)
     return jsonify([x.__dict__ for x in result])
-
 
 def find_midi_port(name, midi_io) -> (int, str):
     ports = midi_io.get_ports()

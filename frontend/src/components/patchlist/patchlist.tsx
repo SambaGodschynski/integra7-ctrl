@@ -7,21 +7,22 @@ import Highlighter from 'react-highlight-words';
 import type { InputRef } from 'antd';
 import { Button, Input, Space, Table } from 'antd';
 import type { ColumnType, ColumnsType } from 'antd/es/table';
-import type { FilterConfirmProps } from 'antd/es/table/interface';
+import type { FilterConfirmProps, TableCurrentDataSource, TablePaginationConfig } from 'antd/es/table/interface';
 
 
 type DataIndex = keyof IPatch;
 
 const MidiChannel = 0; // TODO: make dynamic
-
+const DefaultPageSize = 20;
 export const Patchlist = function (props: {onSelect?: (patch:IPatch)=>void}) {
     const [patches, setPatches] = useState<IPatch[]>([])
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
     const [selectedId, setSelectedId] = useState<number|undefined>(undefined);
     const [page, setPage] = useState<number>(1);
-    const [pageSize, setPageSize] = useState<number>(20);
+    const [pageSize, setPageSize] = useState<number>(DefaultPageSize);
     const searchInput = useRef<InputRef>(null);
+    const [currentData, setCurrentData] = useState<IPatch[]>([]);
 
     const handleSearch = (
         selectedKeys: string[],
@@ -137,14 +138,15 @@ export const Patchlist = function (props: {onSelect?: (patch:IPatch)=>void}) {
             key: 'type',
         },
     ];
-    const loadPatches = async function (): Promise<void> {
+    const loadPatches = async (): Promise<void> => {
         const response = await getPatches();
+        setCurrentData(response);
         setPatches(response);
     }
     useEffect(() => {
         loadPatches();
     }, [])
-    const choosePatch = async function(patch: IPatch) {
+    const choosePatch = async (patch: IPatch) => {
         await setPatch(MidiChannel, patch.id);
         setSelectedId(patch.id);
         if (props.onSelect) {
@@ -157,15 +159,17 @@ export const Patchlist = function (props: {onSelect?: (patch:IPatch)=>void}) {
         return page;
     }
     const setNextPatch = async () => {
-        const id = Math.min((selectedId ?? 0) + 1, patches.length - 1);
-        const patch = patches[id];
-        setPage(findPageOfIndex(id));
+        let currentIndex = currentData.findIndex(x => x.id == selectedId);
+        const nextIndex = Math.min((currentIndex ?? 0) + 1, currentData.length - 1);
+        const patch = currentData[nextIndex];
+        setPage(findPageOfIndex(nextIndex));
         await choosePatch(patch);
     }
     const prevNextPatch = async () => {
-        const id = Math.max((selectedId ?? 0) - 1, 0);
-        const patch = patches[id];
-        setPage(findPageOfIndex(id));
+        let currentIndex = currentData.findIndex(x => x.id == selectedId);
+        const prevIndex = Math.max((currentIndex ?? 0) - 1, 0);
+        const patch = currentData[prevIndex];
+        setPage(findPageOfIndex(prevIndex));
         await choosePatch(patch);
     }
     const setNextPage = async () => {
@@ -194,10 +198,11 @@ export const Patchlist = function (props: {onSelect?: (patch:IPatch)=>void}) {
             return;
         }
     }
-    const onPaginationChanged = (page: number, pageSize: number) => {
-        setPage(page);
-        setPageSize(pageSize);
-    }
+    const onChange = (pagination:TablePaginationConfig, _filters:any, _sorter:any, extra:TableCurrentDataSource<IPatch>) => {
+        setPage(pagination.current ?? 1);
+        setPageSize(pagination.pageSize ?? DefaultPageSize);
+        setCurrentData(extra.currentDataSource);
+    };
     return (<div className="patchlist" tabIndex={0} onKeyDown={onKeyPressed} >
         <Table size="small"
             onRow={(record, rowIndex) => {
@@ -205,9 +210,10 @@ export const Patchlist = function (props: {onSelect?: (patch:IPatch)=>void}) {
                     onClick: choosePatch.bind(null, record)
                 };
             }}
+            onChange={onChange}
             dataSource={patches}
             columns={columns}
-            pagination={{ position: ["bottomCenter"], pageSize: pageSize, current: page, onChange: onPaginationChanged }}
+            pagination={{ position: ["bottomCenter"], pageSize: pageSize, current: page }}
             rowClassName={(patch) => selectedId === patch.id ? 'selected' : ''}
             rowKey="id"></Table>
     </div>);
