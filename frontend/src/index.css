@@ -11,3 +11,14 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.app {
+  display: grid;
+  column-gap: 5px;
+  grid-template-columns: 40% auto;
+  grid-template-rows: 100px auto;
+  grid-template-areas: 
+    "patchList patchCard"
+    "patchList patchEditor" 
+  ;
+}

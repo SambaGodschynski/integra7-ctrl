@@ -3,6 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 import { Patchlist } from './components/patchlist/patchlist';
 import { PatchCard } from './components/patchCard/patchCard';
+import { PatchEditor } from './components/patchEditor/patchEditor';
 import { IPatch } from './integra7/patch';
 
 function App() {
@@ -11,9 +12,16 @@ function App() {
     setPatch(patch);
   };
   return (
-    <div className="App">
-      <Patchlist onSelect={onPatchChanged}></Patchlist>
-      <PatchCard patch={patch}></PatchCard>
+    <div className="app">
+      <div style={{gridArea: "patchList"}}>
+        <Patchlist onSelect={onPatchChanged}></Patchlist>
+      </div>
+      <div style={{gridArea: "patchCard"}}>
+        <PatchCard patch={patch}></PatchCard>
+      </div>
+      <div style={{gridArea: "patchEditor"}}>
+        <PatchEditor patch={patch}></PatchEditor>
+      </div>
     </div>
   );
 }
