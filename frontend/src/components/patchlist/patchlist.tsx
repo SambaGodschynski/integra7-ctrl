@@ -6,7 +6,7 @@ import React, { useRef, useState, useEffect, KeyboardEvent } from 'react';
 import Highlighter from 'react-highlight-words';
 import type { InputRef } from 'antd';
 import { Button, Input, Space, Table } from 'antd';
-import type { ColumnType, ColumnsType } from 'antd/es/table';
+import type { ColumnType } from 'antd/es/table';
 import type { FilterConfirmProps, TableCurrentDataSource, TablePaginationConfig } from 'antd/es/table/interface';
 
 
@@ -159,14 +159,14 @@ export const Patchlist = function (props: {onSelect?: (patch:IPatch)=>void}) {
         return page;
     }
     const setNextPatch = async () => {
-        let currentIndex = currentData.findIndex(x => x.id == selectedId);
+        let currentIndex = currentData.findIndex(x => x.id === selectedId);
         const nextIndex = Math.min((currentIndex ?? 0) + 1, currentData.length - 1);
         const patch = currentData[nextIndex];
         setPage(findPageOfIndex(nextIndex));
         await choosePatch(patch);
     }
     const prevNextPatch = async () => {
-        let currentIndex = currentData.findIndex(x => x.id == selectedId);
+        let currentIndex = currentData.findIndex(x => x.id === selectedId);
         const prevIndex = Math.max((currentIndex ?? 0) - 1, 0);
         const patch = currentData[prevIndex];
         setPage(findPageOfIndex(prevIndex));
