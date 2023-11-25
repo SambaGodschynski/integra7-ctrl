@@ -5,8 +5,8 @@ import { Patchlist } from './components/patchlist/patchlist';
 import { PatchCard } from './components/patchCard/patchCard';
 import { PatchEditor } from './components/patchEditor/patchEditor';
 import { IPatch } from './integra7/patch';
+import { io } from 'socket.io-client';
 
-declare let io: any
 
 function App() {
 
