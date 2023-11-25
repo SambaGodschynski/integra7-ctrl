@@ -8,6 +8,6 @@ import "./patchEditor.css";
 export const PatchEditor = function (props: {patch: IPatch|undefined}) {
     const volume = StudioSetPart[IntegraIds.NEFP_LEVEL];
     return (<>
-        <IntegraControl parameter={volume}></IntegraControl>
+        <IntegraControl partId={IntegraIds._FP1} parameter={volume}></IntegraControl>
     </>);
 }

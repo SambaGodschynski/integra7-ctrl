@@ -63,9 +63,26 @@ def wait_for_devices():
         sleep(5)
     return indevice, outdevice
 
-@socketio.on('xxx')
-def handle_json(json):
-    print('received json: ' + str(json))
+@socketio.on('setValue')
+def set_value(message):
+    '''
+    	globals.communicator.dt1 = function(addr, v) {
+
+		var dataS = toHexStr(addr, ADDR_SIZE);
+
+		for (var i = 0, len = v.length; i < len; i++) {
+			if (v[i] < 0x10)
+				dataS += '0';
+			dataS += v[i].toString(16);
+		}
+
+		var msg = ROLAND_DT1 + dataS; msg += (chksum(dataS) + 'F7');
+
+		queue.push(msg);
+	};
+
+    '''
+    print('received value: ' + str(message))
 
 if __name__=='__main__':
     print("wait for devices")

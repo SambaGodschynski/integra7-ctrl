@@ -1,6 +1,5 @@
 import './patchlist.css';
 import { IPatch } from "../../integra7/patch";
-import { getPatches, setPatch } from "../../common/rest";
 import { SearchOutlined } from '@ant-design/icons';
 import React, { useRef, useState, useEffect, KeyboardEvent } from 'react';
 import Highlighter from 'react-highlight-words';
@@ -8,6 +7,7 @@ import type { InputRef } from 'antd';
 import { Button, Input, Space, Table } from 'antd';
 import type { ColumnType } from 'antd/es/table';
 import type { FilterConfirmProps, TableCurrentDataSource, TablePaginationConfig } from 'antd/es/table/interface';
+import { getIntegra7 } from '../../integra7/communicationServer';
 
 
 type DataIndex = keyof IPatch;
@@ -139,7 +139,8 @@ export const Patchlist = function (props: {onSelect?: (patch:IPatch)=>void}) {
         },
     ];
     const loadPatches = async (): Promise<void> => {
-        const response = await getPatches();
+        const integra7 = await getIntegra7();
+        const response = await integra7.getPatches();
         setCurrentData(response);
         setPatches(response);
     }
@@ -147,7 +148,8 @@ export const Patchlist = function (props: {onSelect?: (patch:IPatch)=>void}) {
         loadPatches();
     }, [])
     const choosePatch = async (patch: IPatch) => {
-        await setPatch(MidiChannel, patch.id);
+        const integra7 = await getIntegra7();
+        await integra7.setPatch(MidiChannel, patch.id);
         setSelectedId(patch.id);
         if (props.onSelect) {
             props.onSelect(patch);
