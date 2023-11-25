@@ -21,9 +21,21 @@ export const
     INTEGER2x4 = 0x2000f, /* 00001111 */
     INTEGER4x4 = 0x4000f; /* 00001111 */
 
+export interface IntegraParameter {
+    id: number;
+    addr: number;
+    desc: string;
+    init: number|string;
+    min: number;
+    max: number;
+    bytes: number;
+    opt?: string;
+    pos?: number;
+}
 
+export type IntegraParameterMap = {[id: number]: IntegraParameter};
 
-export const Setup = {
+export const Setup:IntegraParameterMap = {
     [IntegraIds.NESTP_SND_MODE_SD1]: { addr: 0x0000, desc: 'Side 1 Sound Mode', id: IntegraIds.NESTP_SND_MODE_SD1, init: 1, min: 1, max: 4, bytes: INTEGER1x3 },
     [IntegraIds.NESTP_LIV_BS_MSB_SD1]: { addr: 0x0001, desc: 'Side 1 Live Set BS MSB (CC# 0)', id: IntegraIds.NESTP_LIV_BS_MSB_SD1, init: 84, min: 0, max: 127, bytes: INTEGER1x7 },
     [IntegraIds.NESTP_LIV_BS_LSB_SD1]: { addr: 0x0002, desc: 'Side 1 Live Set BS LSB (CC# 32)', id: IntegraIds.NESTP_LIV_BS_LSB_SD1, init: 0, min: 0, max: 127, bytes: INTEGER1x7 },
@@ -82,7 +94,7 @@ export const Setup = {
     [IntegraIds.NESTP_GM_MAP]: { addr: 0x0037, desc: 'GM Map', id: IntegraIds.NESTP_GM_MAP, init: 0, min: 0, max: 1, bytes: INTEGER1x4 }
 };
 
-export const SystemCommon = {
+export const SystemCommon:IntegraParameterMap = {
     [IntegraIds.NESC_TUNE]: { addr: 0x0000, desc: 'Master Tune', id: IntegraIds.NESC_TUNE, init: 1024, min: 24, max: 2024, bytes: INTEGER4x4 },
     [IntegraIds.NESC_KEY_SHIFT]: { addr: 0x0004, desc: 'Master Key Shift', id: IntegraIds.NESC_KEY_SHIFT, init: 64, min: 40, max: 88, bytes: INTEGER1x6 },
     [IntegraIds.NESC_LEVEL]: { addr: 0x0005, desc: 'Master Level', id: IntegraIds.NESC_LEVEL, init: 127, min: 0, max: 127, bytes: INTEGER1x7 },
@@ -126,7 +138,7 @@ export const SystemCommon = {
     [IntegraIds.NESC_USB_SAMP_RATE]: { addr: 0x002E, desc: 'USB Audio Sampling Rate', id: IntegraIds.NESC_USB_SAMP_RATE, init: 0, min: 0, max: 2, bytes: INTEGER1x2 }
 };
 
-export const VirtualMFX = {
+export const VirtualMFX:IntegraParameterMap = {
     [IntegraIds.NEVF_MFX_TYPE]: { addr: 0x0000, desc: 'MFX Type', id: IntegraIds.NEVF_MFX_TYPE, init: 0, min: 0, max: 67, bytes: INTEGER1x7, opt: 'mfx' },
     [IntegraIds.NEVF_MFX_DRY_SEND]: { addr: 0x0001, desc: 'MFX Dry Send Level', id: IntegraIds.NEVF_MFX_DRY_SEND, init: 127, min: 0, max: 127, bytes: INTEGER1x7 },
     [IntegraIds.NEVF_MFX_CHO_SEND]: { addr: 0x0002, desc: 'MFX Chorus Send Level', id: IntegraIds.NEVF_MFX_CHO_SEND, init: 0, min: 0, max: 127, bytes: INTEGER1x7 },
@@ -177,13 +189,13 @@ export const VirtualMFX = {
     [IntegraIds.NEVF_MFX_PRM32]: { addr: 0x010D, desc: 'MFX Parameter 32', id: IntegraIds.NEVF_MFX_PRM32, init: 32768, min: 12768, max: 52768, bytes: INTEGER4x4, opt: 'mfx', pos: 35 }
 };
 
-export const VirtualPart = {
+export const VirtualPart:IntegraParameterMap = {
     [IntegraIds.NEVP_LEVEL]: { addr: 0x0000, desc: 'Tone Level', id: IntegraIds.NEVP_LEVEL, init: 127, min: 0, max: 127, bytes: INTEGER1x7 },
     [IntegraIds.NEVP_PAN]: { addr: 0x0001, desc: 'Tone Pan', id: IntegraIds.NEVP_PAN, init: 64, min: 0, max: 127, bytes: INTEGER1x7 },
     [IntegraIds.NEVP_TFX_SW]: { addr: 0x0002, desc: 'TFX Switch', id: IntegraIds.NEVP_TFX_SW, init: 0, min: 0, max: 1, bytes: INTEGER1x1 }
 };
 
-export const StudioSetCommon = { 
+export const StudioSetCommon:IntegraParameterMap = { 
     [IntegraIds.NEFC_NAME]: { addr: 0x0000, desc: 'Studio Set Name', id: IntegraIds.NEFC_NAME, init: '', min: 32, max: 127, bytes: 16 },
     [IntegraIds.NEFC_MFX1_CTRL_CH]: { addr: 0x0011, desc: 'MFX1 Control Channel', id: IntegraIds.NEFC_MFX1_CTRL_CH, init: 16, min: 0, max: 16, bytes: INTEGER1x6 },
     [IntegraIds.NEFC_MFX2_CTRL_CH]: { addr: 0x0012, desc: 'MFX2 Control Channel', id: IntegraIds.NEFC_MFX2_CTRL_CH, init: 16, min: 0, max: 16, bytes: INTEGER1x6 },
@@ -237,7 +249,7 @@ export const StudioSetCommon = {
     [IntegraIds.NEFC_EXP_SLOT4_ROMID]: { addr: 0x0053, desc: 'Expansion Slot 4 RomID', id: IntegraIds.NEFC_EXP_SLOT4_ROMID, init: 0, min: 0, max: 127, bytes: INTEGER1x7 }
 };
 
-export const StudioSetCommonChorus = {
+export const StudioSetCommonChorus:IntegraParameterMap = {
     [IntegraIds.NEFH_CHO_TYPE]: { addr: 0x0000, desc: 'Chorus Type', id: IntegraIds.NEFH_CHO_TYPE, init: 1, min: 0, max: 3, bytes: INTEGER1x4, opt: 'chorus' },
     [IntegraIds.NEFH_CHO_LEVEL]: { addr: 0x0001, desc: 'Chorus Level', id: IntegraIds.NEFH_CHO_LEVEL, init: 127, min: 0, max: 127, bytes: INTEGER1x7 },
     [IntegraIds.NEFH_CHO_OUT_ASGN]: { addr: 0x0002, desc: 'Chorus Output Assign ', id: IntegraIds.NEFH_CHO_OUT_ASGN, init: 0, min: 0, max: 3, bytes: INTEGER1x2 },
@@ -264,7 +276,7 @@ export const StudioSetCommonChorus = {
     [IntegraIds.NEFH_CHO_PRM20]: { addr: 0x0050, desc: 'Chorus Parameter 20', id: IntegraIds.NEFH_CHO_PRM20, init: 32768, min: 12768, max: 52768, bytes: INTEGER4x4, opt: 'chorus', pos: 19 }
 };
 
-export const StudioSetCommonReverb = {
+export const StudioSetCommonReverb:IntegraParameterMap = {
     [IntegraIds.NEFV_REV_TYPE]: { addr: 0x0000, desc: 'Reverb Type', id: IntegraIds.NEFV_REV_TYPE, init: 1, min: 0, max: 6, bytes: INTEGER1x4, opt: 'reverb' },
     [IntegraIds.NEFV_REV_LEVEL]: { addr: 0x0001, desc: 'Reverb Level', id: IntegraIds.NEFV_REV_LEVEL, init: 127, min: 0, max: 127, bytes: INTEGER1x7 },
     [IntegraIds.NEFV_REV_OUT_ASGN]: { addr: 0x0002, desc: 'Reverb Output Assign', id: IntegraIds.NEFV_REV_OUT_ASGN, init: 0, min: 0, max: 3, bytes: INTEGER1x2 },
@@ -294,7 +306,7 @@ export const StudioSetCommonReverb = {
     [IntegraIds.NEFV_REV_PRM24]: { addr: 0x005F, desc: 'Reverb Parameter 24', id: IntegraIds.NEFV_REV_PRM24, init: 32768, min: 12768, max: 52768, bytes: INTEGER4x4, opt: 'reverb', pos: 23 }
 };
 
-export const StudioSetCommonRSS = {
+export const StudioSetCommonRSS:IntegraParameterMap = {
     [IntegraIds.NEFRSS_RSS_SW]: { addr: 0x0000, desc: 'Motional Surround Switch', id: IntegraIds.NEFRSS_RSS_SW, init: 0, min: 0, max: 1, bytes: INTEGER1x1 },
     [IntegraIds.NEFRSS_RSS_ROOM_TYPE]: { addr: 0x0001, desc: 'Room Type', id: IntegraIds.NEFRSS_RSS_ROOM_TYPE, init: 2, min: 0, max: 3, bytes: INTEGER1x2 },
     [IntegraIds.NEFRSS_REV_LEVEL]: { addr: 0x0002, desc: 'Reverb Level', id: IntegraIds.NEFRSS_REV_LEVEL, init: 80, min: 0, max: 127, bytes: INTEGER1x7 },
@@ -310,7 +322,7 @@ export const StudioSetCommonRSS = {
     [IntegraIds.NEFRSS_SP4XTALKC]: { addr: 0x000C, desc: 'Cross Talk Cancel', id: IntegraIds.NEFRSS_SP4XTALKC, init: 50, min: 0, max: 100, bytes: INTEGER1x7 }
 };
 
-export const StudioSetMasteringEQ = {
+export const StudioSetMasteringEQ:IntegraParameterMap = {
     [IntegraIds.NEFMEQ_EQ_LOWFREQ]: { addr: 0x0000, desc: 'EQ Low Freq', id: IntegraIds.NEFMEQ_EQ_LOWFREQ, init: 1, min: 0, max: 1, bytes: INTEGER1x1 },
     [IntegraIds.NEFMEQ_EQ_LOWGAIN]: { addr: 0x0001, desc: 'EQ Low Gain', id: IntegraIds.NEFMEQ_EQ_LOWGAIN, init: 15, min: 0, max: 30, bytes: INTEGER1x5 },
     [IntegraIds.NEFMEQ_EQ_MIDFREQ]: { addr: 0x0002, desc: 'EQ Mid Freq', id: IntegraIds.NEFMEQ_EQ_MIDFREQ, init: 7, min: 0, max: 16, bytes: INTEGER1x5 },
@@ -320,11 +332,11 @@ export const StudioSetMasteringEQ = {
     [IntegraIds.NEFMEQ_EQ_HIGHGAIN]: { addr: 0x0006, desc: 'EQ High Gain', id: IntegraIds.NEFMEQ_EQ_HIGHGAIN, init: 15, min: 0, max: 30, bytes: INTEGER1x5 }
 };
 
-export const StudioSetMIDI = {
+export const StudioSetMIDI:IntegraParameterMap = {
     [IntegraIds.NEFM_PHASE_LOCK]: { addr: 0x0000, desc: 'Phase Lock', id: IntegraIds.NEFM_PHASE_LOCK, init: 0, min: 0, max: 1, bytes: INTEGER1x1 }
 };
 
-export const StudioSetPart = {
+export const StudioSetPart:IntegraParameterMap = {
     [IntegraIds.NEFP_RX_CH]: { addr: 0x0000, desc: 'Receive Channel', id: IntegraIds.NEFP_RX_CH, init: 0, min: 0, max: 15, bytes: INTEGER1x4 },
     [IntegraIds.NEFP_RX_SW]: { addr: 0x0001, desc: 'Part Switch', id: IntegraIds.NEFP_RX_SW, init: 1, min: 0, max: 1, bytes: INTEGER1x1 },
     [IntegraIds.NEFP_RX_SRC1]: { addr: 0x0002, desc: 'Receive Src1', id: IntegraIds.NEFP_RX_SRC1, init: 1, min: 0, max: 1, bytes: INTEGER1x1 },
@@ -397,7 +409,7 @@ export const StudioSetPart = {
     [IntegraIds.NEFP_RSS_RVSEND]: { addr: 0x0049, desc: 'Motional Surround RevSend Level', id: IntegraIds.NEFP_RSS_RVSEND, init: 40, min: 0, max: 127, bytes: INTEGER1x7 }
 };
 
-export const StudioSetPartEQ = {
+export const StudioSetPartEQ:IntegraParameterMap = {
     [IntegraIds.NEFPEQ_EQ_SW]: { addr: 0x0000, desc: 'EQ Switch', id: IntegraIds.NEFPEQ_EQ_SW, init: 0, min: 0, max: 1, bytes: INTEGER1x1 },
     [IntegraIds.NEFPEQ_EQ_LOWFREQ]: { addr: 0x0001, desc: 'EQ Low Freq', id: IntegraIds.NEFPEQ_EQ_LOWFREQ, init: 1, min: 0, max: 1, bytes: INTEGER1x1 },
     [IntegraIds.NEFPEQ_EQ_LOWGAIN]: { addr: 0x0002, desc: 'EQ Low Gain', id: IntegraIds.NEFPEQ_EQ_LOWGAIN, init: 15, min: 0, max: 30, bytes: INTEGER1x5 },
@@ -408,7 +420,7 @@ export const StudioSetPartEQ = {
     [IntegraIds.NEFPEQ_EQ_HIGHGAIN]: { addr: 0x0007, desc: 'EQ High Gain', id: IntegraIds.NEFPEQ_EQ_HIGHGAIN, init: 15, min: 0, max: 30, bytes: INTEGER1x5 }
 };
 
-export const PCMToneCommon = { 
+export const PCMToneCommon:IntegraParameterMap = { 
     [IntegraIds.RFPC_NAME]: { addr: 0x0000, desc: 'PCM Tone Name', id: IntegraIds.RFPC_NAME, init: '', min: 32, max: 127, bytes: 12 },
     [IntegraIds.RFPC_LEVEL]: { addr: 0x000E, desc: 'PCM Tone Level', id: IntegraIds.RFPC_LEVEL, init: 127, min: 0, max: 127, bytes: INTEGER1x7 },
     [IntegraIds.RFPC_PAN]: { addr: 0x000F, desc: 'PCM Tone Pan', id: IntegraIds.RFPC_PAN, init: 64, min: 0, max: 127, bytes: INTEGER1x7 },
@@ -473,7 +485,7 @@ export const PCMToneCommon = {
     [IntegraIds.RFPC_PART_MOD_SW]: { addr: 0x004F, desc: 'Part Modulation Switch', id: IntegraIds.RFPC_PART_MOD_SW, init: 0, min: 0, max: 1, bytes: INTEGER1x1 }
 };
 
-export const PCMToneCommonMFX = {
+export const PCMToneCommonMFX:IntegraParameterMap = {
     [IntegraIds.RFPF_MFX_TYPE]: { addr: 0x0000, desc: 'MFX Type', id: IntegraIds.RFPF_MFX_TYPE, init: 0, min: 0, max: 67, bytes: INTEGER1x7, opt: 'mfx' },
     [IntegraIds.RFPF_MFX_DRY_SEND]: { addr: 0x0001, desc: 'MFX Dry Send Level', id: IntegraIds.RFPF_MFX_DRY_SEND, init: 127, min: 0, max: 127, bytes: INTEGER1x7 },
     [IntegraIds.RFPF_MFX_CHO_SEND]: { addr: 0x0002, desc: 'MFX Chorus Send Level', id: IntegraIds.RFPF_MFX_CHO_SEND, init: 0, min: 0, max: 127, bytes: INTEGER1x7 },
@@ -524,7 +536,7 @@ export const PCMToneCommonMFX = {
     [IntegraIds.RFPF_MFX_PRM32]: { addr: 0x010D, desc: 'MFX Parameter 32', id: IntegraIds.RFPF_MFX_PRM32, init: 32768, min: 12768, max: 52768, bytes: INTEGER4x4, opt: 'mfx', pos: 35 }
 };
 
-export const PCMTonePMT = {
+export const PCMTonePMT:IntegraParameterMap = {
     [IntegraIds.RFPX_STRUCT1]: { addr: 0x0000, desc: 'Structure Type 1 & 2', id: IntegraIds.RFPX_STRUCT1, init: 0, min: 0, max: 9, bytes: INTEGER1x4 },
     [IntegraIds.RFPX_BOOST1]: { addr: 0x0001, desc: 'Booster 1 & 2', id: IntegraIds.RFPX_BOOST1, init: 0, min: 0, max: 3, bytes: INTEGER1x2 },
     [IntegraIds.RFPX_STRUCT3]: { addr: 0x0002, desc: 'Structure Type 3 & 4', id: IntegraIds.RFPX_STRUCT3, init: 0, min: 0, max: 9, bytes: INTEGER1x4 },
@@ -568,7 +580,7 @@ export const PCMTonePMT = {
     [IntegraIds.RFPX_TMT4_VFADE_UP]: { addr: 0x0028, desc: 'PMT4 Velocity Fade Width Upper', id: IntegraIds.RFPX_TMT4_VFADE_UP, init: 0, min: 0, max: 127, bytes: INTEGER1x7 }
 };
 
-export const PCMTonePartial = {
+export const PCMTonePartial:IntegraParameterMap = {
     [IntegraIds.RFPT_LEVEL]: { addr: 0x0000, desc: 'Partial Level', id: IntegraIds.RFPT_LEVEL, init: 127, min: 0, max: 127, bytes: INTEGER1x7 },
     [IntegraIds.RFPT_PIT_CRS]: { addr: 0x0001, desc: 'Partial Coarse Tune', id: IntegraIds.RFPT_PIT_CRS, init: 64, min: 16, max: 112, bytes: INTEGER1x7 },
     [IntegraIds.RFPT_PIT_FINE]: { addr: 0x0002, desc: 'Partial Fine Tune', id: IntegraIds.RFPT_PIT_FINE, init: 64, min: 14, max: 114, bytes: INTEGER1x7 },
@@ -709,7 +721,7 @@ export const PCMTonePartial = {
     [IntegraIds.RFPT_LFO_STEP16]: { addr: 0x0119, desc: 'LFO Step16', id: IntegraIds.RFPT_LFO_STEP16, init: 64, min: 28, max: 100, bytes: INTEGER1x7 }
 };
 
-export const PCMToneController = {
+export const PCMToneController:IntegraParameterMap = {
     [IntegraIds.RFPLGT4_BEAM_SW]: { addr: 0x0000, desc: 'Beam Switch', id: IntegraIds.RFPLGT4_BEAM_SW, init: 0, min: 0, max: 1, bytes: INTEGER1x1 },
     [IntegraIds.RFPLGT4_BEAM_ASGN]: { addr: 0x0001, desc: 'Beam Assign', id: IntegraIds.RFPLGT4_BEAM_ASGN, init: 2, min: 0, max: 109, bytes: INTEGER1x7 },
     [IntegraIds.RFPLGT4_BEAM_POL]: { addr: 0x0002, desc: 'Beam Polarity', id: IntegraIds.RFPLGT4_BEAM_POL, init: 0, min: 0, max: 1, bytes: INTEGER1x1 },
@@ -740,7 +752,7 @@ export const PCMToneController = {
     [IntegraIds.RFPLGT4_ARP_KEY_TRIG]: { addr: 0x001B, desc: 'Arpeggio Key Trigger', id: IntegraIds.RFPLGT4_ARP_KEY_TRIG, init: 0, min: 0, max: 1, bytes: INTEGER1x1 }
 };
 
-export const PCMToneCommon2 = {
+export const PCMToneCommon2:IntegraParameterMap = {
     [IntegraIds.RESERVE_DUMMY]: { addr: 0x0000, desc: '(reserve)', id: IntegraIds.RESERVE_DUMMY, init: 0, min: 0, max: 127, bytes: INTEGER1x7 },
     [IntegraIds.RFPC2_CATE]: { addr: 0x0010, desc: 'Tone Category', id: IntegraIds.RFPC2_CATE, init: 0, min: 0, max: 127, bytes: INTEGER1x7 },
     [IntegraIds.RFPC2_PHRASE_OCT]: { addr: 0x0013, desc: 'Phrase Octave Shift', id: IntegraIds.RFPC2_PHRASE_OCT, init: 64, min: 61, max: 67, bytes: INTEGER1x3 },
@@ -783,7 +795,7 @@ export const PCMToneCommon2 = {
     [IntegraIds.RFPC2_PHRASE]: { addr: 0x0038, desc: 'Phrase Number', id: IntegraIds.RFPC2_PHRASE, init: 0, min: 0, max: 65535, bytes: INTEGER4x4 }
 };
 
-export const PCMToneModify = {
+export const PCMToneModify:IntegraParameterMap = {
     [IntegraIds.RFPTM_MOD_PRM1]: { addr: 0x0001, desc: 'Modify Parameter 1 ', id: IntegraIds.RFPTM_MOD_PRM1, init: 0, min: 0, max: 127, bytes: INTEGER1x7 },
     [IntegraIds.RFPTM_MOD_PRM2]: { addr: 0x0002, desc: 'Modify Parameter 2 ', id: IntegraIds.RFPTM_MOD_PRM2, init: 0, min: 0, max: 127, bytes: INTEGER1x7 },
     [IntegraIds.RFPTM_MOD_PRM3]: { addr: 0x0003, desc: 'Modify Parameter 3 ', id: IntegraIds.RFPTM_MOD_PRM3, init: 0, min: 0, max: 127, bytes: INTEGER1x7 },
@@ -818,12 +830,12 @@ export const PCMToneModify = {
     [IntegraIds.RFPTM_MOD_PRM32]: { addr: 0x0020, desc: 'Modify Parameter 32', id: IntegraIds.RFPTM_MOD_PRM32, init: 0, min: 0, max: 127, bytes: INTEGER1x7 }
 };
 
-export const RhythmSetCommon = {
+export const RhythmSetCommon:IntegraParameterMap = {
     [IntegraIds.RFRC_NAME]: { addr: 0x0000, desc: 'Rhythm Name', id: IntegraIds.RFRC_NAME, init: '', min: 32, max: 127, bytes: 12 },
     [IntegraIds.RFRC_LEVEL]: { addr: 0x000C, desc: 'Rhythm Level', id: IntegraIds.RFRC_LEVEL, init: 127, min: 0, max: 127, bytes: INTEGER1x7 }
 };
 
-export const RhythmSetCommonMFX = {
+export const RhythmSetCommonMFX:IntegraParameterMap = {
     [IntegraIds.RFRF_MFX_TYPE]: { addr: 0x0000, desc: 'MFX Type', id: IntegraIds.RFRF_MFX_TYPE, init: 0, min: 0, max: 67, bytes: INTEGER1x7, opt: 'mfx' },
     [IntegraIds.RFRF_MFX_DRY_SEND]: { addr: 0x0001, desc: 'MFX Dry Send Level', id: IntegraIds.RFRF_MFX_DRY_SEND, init: 127, min: 0, max: 127, bytes: INTEGER1x7 },
     [IntegraIds.RFRF_MFX_CHO_SEND]: { addr: 0x0002, desc: 'MFX Chorus Send Level', id: IntegraIds.RFRF_MFX_CHO_SEND, init: 0, min: 0, max: 127, bytes: INTEGER1x7 },
@@ -874,7 +886,7 @@ export const RhythmSetCommonMFX = {
     [IntegraIds.RFRF_MFX_PRM32]: { addr: 0x010D, desc: 'MFX Parameter 32', id: IntegraIds.RFRF_MFX_PRM32, init: 32768, min: 12768, max: 52768, bytes: INTEGER4x4, opt: 'mfx', pos: 35 }
 };
 
-export const RhythmSetCommonCompEQ = {
+export const RhythmSetCommonCompEQ:IntegraParameterMap = {
     [IntegraIds.RFRCQ_COMP1_SW]: { addr: 0x0000, desc: 'Comp1 Switch', id: IntegraIds.RFRCQ_COMP1_SW, init: 0, min: 0, max: 1, bytes: INTEGER1x1 },
     [IntegraIds.RFRCQ_COMP1_ATTACK]: { addr: 0x0001, desc: 'Comp1 Attack Time', id: IntegraIds.RFRCQ_COMP1_ATTACK, init: 9, min: 0, max: 31, bytes: INTEGER1x5 },
     [IntegraIds.RFRCQ_COMP1_RELEASE]: { addr: 0x0002, desc: 'Comp1 Release Time', id: IntegraIds.RFRCQ_COMP1_RELEASE, init: 9, min: 0, max: 23, bytes: INTEGER1x5 },
@@ -961,7 +973,7 @@ export const RhythmSetCommonCompEQ = {
     [IntegraIds.RFRCQ_EQ6_HIGHGAIN]: { addr: 0x0053, desc: 'EQ6 High Gain', id: IntegraIds.RFRCQ_EQ6_HIGHGAIN, init: 15, min: 0, max: 30, bytes: INTEGER1x5 }
 };
 
-export const RhythmSetPartial = {
+export const RhythmSetPartial:IntegraParameterMap = {
     [IntegraIds.RFRT_NAME]: { addr: 0x0000, desc: 'Partial Name', id: IntegraIds.RFRT_NAME, init: '', min: 32, max: 127, bytes: 12 },
     [IntegraIds.RFRT_ASGN_TYPE]: { addr: 0x000C, desc: 'Assign Type', id: IntegraIds.RFRT_ASGN_TYPE, init: 0, min: 0, max: 1, bytes: INTEGER1x1 },
     [IntegraIds.RFRT_MUTE_GRP]: { addr: 0x000D, desc: 'Mute Group', id: IntegraIds.RFRT_MUTE_GRP, init: 0, min: 0, max: 31, bytes: INTEGER1x5 },
@@ -1109,7 +1121,7 @@ export const RhythmSetPartial = {
     [IntegraIds.RFRT_LEVEL_MOD]: { addr: 0x0142, desc: 'Relative Level', id: IntegraIds.RFRT_LEVEL_MOD, init: 64, min: 0, max: 127, bytes: INTEGER1x7 }
 };
 
-export const RhythmSetController = {
+export const RhythmSetController:IntegraParameterMap = {
     [IntegraIds.RFRLGT4_BEAM_SW]: { addr: 0x0000, desc: 'Beam Switch', id: IntegraIds.RFRLGT4_BEAM_SW, init: 0, min: 0, max: 1, bytes: INTEGER1x1 },
     [IntegraIds.RFRLGT4_BEAM_ASGN]: { addr: 0x0001, desc: 'Beam Assign', id: IntegraIds.RFRLGT4_BEAM_ASGN, init: 2, min: 0, max: 106, bytes: INTEGER1x7 },
     [IntegraIds.RFRLGT4_BEAM_POL]: { addr: 0x0002, desc: 'Beam Polarity', id: IntegraIds.RFRLGT4_BEAM_POL, init: 0, min: 0, max: 1, bytes: INTEGER1x1 },
@@ -1138,7 +1150,7 @@ export const RhythmSetController = {
     [IntegraIds.RFRLGT4_PTN_KEY_TRIG]: { addr: 0x0019, desc: 'Pattern Key Trigger', id: IntegraIds.RFRLGT4_PTN_KEY_TRIG, init: 0, min: 0, max: 1, bytes: INTEGER1x1 }
 };
 
-export const RhythmSetCommon2 = {
+export const RhythmSetCommon2:IntegraParameterMap = {
     [IntegraIds.RESERVE_DUMMY]: { addr: 0x0000, desc: '(reserve)', id: IntegraIds.RESERVE_DUMMY, init: 0, min: 0, max: 127, bytes: INTEGER1x7 },
     [IntegraIds.RFRC2_PHRASE]: { addr: 0x0010, desc: 'Phrase Number', id: IntegraIds.RFRC2_PHRASE, init: 0, min: 0, max: 255, bytes: INTEGER2x4 },
     [IntegraIds.RFRC2_KEYWORD1]: { addr: 0x0012, desc: 'Keyword Flag 1 ', id: IntegraIds.RFRC2_KEYWORD1, init: 0, min: 0, max: 1, bytes: INTEGER1x1 },
@@ -1175,7 +1187,7 @@ export const RhythmSetCommon2 = {
     [IntegraIds.RFRC2_TFX_SW]: { addr: 0x0031, desc: 'TFX Switch', id: IntegraIds.RFRC2_TFX_SW, init: 1, min: 0, max: 1, bytes: INTEGER1x1 }
 };
 
-export const RhythmSetToneModify = {
+export const RhythmSetToneModify:IntegraParameterMap = {
     [IntegraIds.RFRTM_MOD_PRM1]: { addr: 0x0001, desc: 'Modify Parameter 1 ', id: IntegraIds.RFRTM_MOD_PRM1, init: 0, min: 0, max: 127, bytes: INTEGER1x7 },
     [IntegraIds.RFRTM_MOD_PRM2]: { addr: 0x0002, desc: 'Modify Parameter 2 ', id: IntegraIds.RFRTM_MOD_PRM2, init: 0, min: 0, max: 127, bytes: INTEGER1x7 },
     [IntegraIds.RFRTM_MOD_PRM3]: { addr: 0x0003, desc: 'Modify Parameter 3 ', id: IntegraIds.RFRTM_MOD_PRM3, init: 0, min: 0, max: 127, bytes: INTEGER1x7 },
@@ -1210,7 +1222,7 @@ export const RhythmSetToneModify = {
     [IntegraIds.RFRTM_MOD_PRM32]: { addr: 0x0020, desc: 'Modify Parameter 32', id: IntegraIds.RFRTM_MOD_PRM32, init: 0, min: 0, max: 127, bytes: INTEGER1x7 }
 };
 
-export const SNSynthToneCommon = {
+export const SNSynthToneCommon:IntegraParameterMap = {
     [IntegraIds.SHPC_NAME]: { addr: 0x0000, desc: 'Tone Name', id: IntegraIds.SHPC_NAME, init: '', min: 32, max: 127, bytes: 12 },
     [IntegraIds.SHPC_LEVEL]: { addr: 0x000C, desc: 'Tone Level', id: IntegraIds.SHPC_LEVEL, init: 100, min: 0, max: 127, bytes: INTEGER1x7 },
     [IntegraIds.SHPC_PORT_SW]: { addr: 0x0012, desc: 'Portamento Switch', id: IntegraIds.SHPC_PORT_SW, init: 0, min: 0, max: 1, bytes: INTEGER1x1 },
@@ -1238,7 +1250,7 @@ export const SNSynthToneCommon = {
     [IntegraIds.SHPC_UNISON_SIZE]: { addr: 0x003C, desc: 'Unison Size', id: IntegraIds.SHPC_UNISON_SIZE, init: 3, min: 0, max: 3, bytes: INTEGER1x2 }
 };
 
-export const SNSynthToneCommonMFX = {
+export const SNSynthToneCommonMFX:IntegraParameterMap = {
     [IntegraIds.SHPF_MFX_TYPE]: { addr: 0x0000, desc: 'MFX Type', id: IntegraIds.SHPF_MFX_TYPE, init: 0, min: 0, max: 67, bytes: INTEGER1x7, opt: 'mfx' },
     [IntegraIds.SHPF_MFX_DRY_SEND]: { addr: 0x0001, desc: 'MFX Dry Send Level', id: IntegraIds.SHPF_MFX_DRY_SEND, init: 127, min: 0, max: 127, bytes: INTEGER1x7 },
     [IntegraIds.SHPF_MFX_CHO_SEND]: { addr: 0x0002, desc: 'MFX Chorus Send Level', id: IntegraIds.SHPF_MFX_CHO_SEND, init: 0, min: 0, max: 127, bytes: INTEGER1x7 },
@@ -1289,7 +1301,7 @@ export const SNSynthToneCommonMFX = {
     [IntegraIds.SHPF_MFX_PRM32]: { addr: 0x010D, desc: 'MFX Parameter 32', id: IntegraIds.SHPF_MFX_PRM32, init: 32768, min: 12768, max: 52768, bytes: INTEGER4x4, opt: 'mfx', pos: 35 }
 };
 
-export const SNSynthToneModify = {
+export const SNSynthToneModify:IntegraParameterMap = {
     [IntegraIds.RESERVE_DUMMY]: { addr: 0x0000, desc: '(reserve)', id: IntegraIds.RESERVE_DUMMY, init: 0, min: 0, max: 127, bytes: INTEGER1x7 },
     [IntegraIds.SHPTM_MOD_PRM1]: { addr: 0x0001, desc: 'Attack Time Interval Sens ', id: IntegraIds.SHPTM_MOD_PRM1, init: 0, min: 0, max: 127, bytes: INTEGER1x7 },
     [IntegraIds.SHPTM_MOD_PRM2]: { addr: 0x0002, desc: 'Release Time Interval Sens ', id: IntegraIds.SHPTM_MOD_PRM2, init: 0, min: 0, max: 127, bytes: INTEGER1x7 },
@@ -1325,7 +1337,7 @@ export const SNSynthToneModify = {
     [IntegraIds.SHPTM_MOD_PRM32]: { addr: 0x0020, desc: 'Modify Parameter 32', id: IntegraIds.SHPTM_MOD_PRM32, init: 0, min: 0, max: 127, bytes: INTEGER1x7 }
 };
 
-export const SNSynthTonePartial = {
+export const SNSynthTonePartial:IntegraParameterMap = {
     [IntegraIds.SHPT_OSC_WAVE]: { addr: 0x0000, desc: 'OSC Wave', id: IntegraIds.SHPT_OSC_WAVE, init: 0, min: 0, max: 7, bytes: INTEGER1x3 },
     [IntegraIds.SHPT_OSC_WAVE_VAR]: { addr: 0x0001, desc: 'OSC Wave Variation', id: IntegraIds.SHPT_OSC_WAVE_VAR, init: 0, min: 0, max: 2, bytes: INTEGER1x6 },
     [IntegraIds.SHPT_OSC_PIT_CRS]: { addr: 0x0003, desc: 'OSC Pitch', id: IntegraIds.SHPT_OSC_PIT_CRS, init: 64, min: 40, max: 88, bytes: INTEGER1x6 },
@@ -1382,7 +1394,7 @@ export const SNSynthTonePartial = {
     [IntegraIds.SHPT_WAV_NUML]: { addr: 0x0035, desc: 'Wave Number', id: IntegraIds.SHPT_WAV_NUML, init: 45, min: 1, max: 450, bytes: INTEGER4x4 },
 };
 
-export const SNToneCommon = {
+export const SNToneCommon:IntegraParameterMap = {
     [IntegraIds.SNTC_NAME]: { addr: 0x0000, desc: 'Tone Name', id: IntegraIds.SNTC_NAME, init: '', min: 32, max: 127, bytes: 16 },
     [IntegraIds.SNTC_TONE_LEVEL]: { addr: 0x0010, desc: 'Tone Level', id: IntegraIds.SNTC_TONE_LEVEL, init: 127, min: 0, max: 127, bytes: INTEGER1x7 },
     [IntegraIds.SNTC_MONO_POLY]: { addr: 0x0011, desc: 'Mono/Poly', id: IntegraIds.SNTC_MONO_POLY, init: 1, min: 0, max: 1, bytes: INTEGER1x1 },
@@ -1435,7 +1447,7 @@ export const SNToneCommon = {
     [IntegraIds.SNTC_MOD_PRM32]: { addr: 0x0041, desc: 'Modify Parameter 32', id: IntegraIds.SNTC_MOD_PRM32, init: 0, min: 0, max: 127, bytes: INTEGER1x7, opt: 'mod', pos: 31 }
 };
 
-export const SNToneMFX = {
+export const SNToneMFX:IntegraParameterMap = {
     [IntegraIds.SNTF_MFX_TYPE]: { addr: 0x0000, desc: 'MFX Type', id: IntegraIds.SNTF_MFX_TYPE, init: 0, min: 0, max: 67, bytes: INTEGER1x7, opt: 'mfx' },
     [IntegraIds.SNTF_MFX_DRY_SEND]: { addr: 0x0001, desc: 'MFX Dry Send Level', id: IntegraIds.SNTF_MFX_DRY_SEND, init: 127, min: 0, max: 127, bytes: INTEGER1x7 },
     [IntegraIds.SNTF_MFX_CHO_SEND]: { addr: 0x0002, desc: 'MFX Chorus Send Level', id: IntegraIds.SNTF_MFX_CHO_SEND, init: 0, min: 0, max: 127, bytes: INTEGER1x7 },
@@ -1486,7 +1498,7 @@ export const SNToneMFX = {
     [IntegraIds.SNTF_MFX_PRM32]: { addr: 0x010D, desc: 'MFX Parameter 32', id: IntegraIds.SNTF_MFX_PRM32, init: 32768, min: 12768, max: 52768, bytes: INTEGER4x4, opt: 'mfx', pos: 35 }
 };
 
-export const KitCommon = {
+export const KitCommon:IntegraParameterMap = {
     [IntegraIds.SDKC_NAME]: { addr: 0x0000, desc: 'Kit Name', id: IntegraIds.SDKC_NAME, init: '', min: 32, max: 127, bytes: 16 },
     [IntegraIds.SDKC_LEVEL]: { addr: 0x0010, desc: 'Kit Level', id: IntegraIds.SDKC_LEVEL, init: 100, min: 0, max: 127, bytes: INTEGER1x7 },
     [IntegraIds.SDKC_AMBIENCE_LEVEL]: { addr: 0x0011, desc: 'Ambience Level', id: IntegraIds.SDKC_AMBIENCE_LEVEL, init: 64, min: 0, max: 127, bytes: INTEGER1x7 },
@@ -1494,7 +1506,7 @@ export const KitCommon = {
     [IntegraIds.SDKC_TFX_SW]: { addr: 0x0013, desc: 'TFX Switch', id: IntegraIds.SDKC_TFX_SW, init: 1, min: 0, max: 1, bytes: INTEGER1x1 }
 };
 
-export const KitMFX = {
+export const KitMFX:IntegraParameterMap = {
     [IntegraIds.SDKF_MFX_TYPE]: { addr: 0x0000, desc: 'MFX Type', id: IntegraIds.SDKF_MFX_TYPE, init: 0, min: 0, max: 67, bytes: INTEGER1x7, opt: 'mfx' },
     [IntegraIds.SDKF_MFX_DRY_SEND]: { addr: 0x0001, desc: 'MFX Dry Send Level', id: IntegraIds.SDKF_MFX_DRY_SEND, init: 127, min: 0, max: 127, bytes: INTEGER1x7 },
     [IntegraIds.SDKF_MFX_CHO_SEND]: { addr: 0x0002, desc: 'MFX Chorus Send Level', id: IntegraIds.SDKF_MFX_CHO_SEND, init: 0, min: 0, max: 127, bytes: INTEGER1x7 },
@@ -1545,7 +1557,7 @@ export const KitMFX = {
     [IntegraIds.SDKF_MFX_PRM32]: { addr: 0x010D, desc: 'MFX Parameter 32', id: IntegraIds.SDKF_MFX_PRM32, init: 32768, min: 12768, max: 52768, bytes: INTEGER4x4, opt: 'mfx', pos: 35 }
 };
 
-export const KitCommonCompEQ = {
+export const KitCommonCompEQ:IntegraParameterMap = {
     [IntegraIds.SDKCQ_COMP1_SW]: { addr: 0x0000, desc: 'Comp1 Switch', id: IntegraIds.SDKCQ_COMP1_SW, init: 0, min: 0, max: 1, bytes: INTEGER1x1 },
     [IntegraIds.SDKCQ_COMP1_ATTACK]: { addr: 0x0001, desc: 'Comp1 Attack Time', id: IntegraIds.SDKCQ_COMP1_ATTACK, init: 0, min: 0, max: 31, bytes: INTEGER1x5 },
     [IntegraIds.SDKCQ_COMP1_RELEASE]: { addr: 0x0002, desc: 'Comp1 Release Time', id: IntegraIds.SDKCQ_COMP1_RELEASE, init: 0, min: 0, max: 23, bytes: INTEGER1x5 },
@@ -1632,7 +1644,7 @@ export const KitCommonCompEQ = {
     [IntegraIds.SDKCQ_EQ6_HIGHGAIN]: { addr: 0x0053, desc: 'EQ6 High Gain', id: IntegraIds.SDKCQ_EQ6_HIGHGAIN, init: 15, min: 0, max: 30, bytes: INTEGER1x5 }
 };
 
-export const KitNote = {
+export const KitNote:IntegraParameterMap = {
     [IntegraIds.SDKN_INST_NUM]: { addr: 0x0000, desc: 'Inst Number', id: IntegraIds.SDKN_INST_NUM, init: 1, min: 0, max: 512, bytes: INTEGER4x4 },
     [IntegraIds.SDKN_INST_LEVEL]: { addr: 0x0004, desc: 'Level', id: IntegraIds.SDKN_INST_LEVEL, init: 100, min: 0, max: 127, bytes: INTEGER1x7 },
     [IntegraIds.SDKN_INST_PAN]: { addr: 0x0005, desc: 'Pan', id: IntegraIds.SDKN_INST_PAN, init: 64, min: 0, max: 127, bytes: INTEGER1x7 },

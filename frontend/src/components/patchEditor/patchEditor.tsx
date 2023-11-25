@@ -1,12 +1,13 @@
 import { IPatch } from "../../integra7/patch";
-import { ValueControl } from "../controls/valueControl";
+import { IntegraControl } from "../controls/integraControl/integraControl";
+import { ValueControl } from "../controls/valueControl/valueControl";
+import { StudioSetPart } from "../../integra7/parameters";
+import { IntegraIds } from "../../integra7/ids";
 import "./patchEditor.css";
 
 export const PatchEditor = function (props: {patch: IPatch|undefined}) {
-    function onValueChanged(val: number | null): void {
-        console.log(val);
-    }
+    const volume = StudioSetPart[IntegraIds.NEFP_LEVEL];
     return (<>
-        <ValueControl value={0} onChange={onValueChanged}></ValueControl>
+        <IntegraControl parameter={volume}></IntegraControl>
     </>);
 }
