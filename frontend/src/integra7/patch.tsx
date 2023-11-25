@@ -1,3 +1,5 @@
+import { IntegraIds } from "./ids";
+
 export interface IPatch {
     id: number;
     name: string;
