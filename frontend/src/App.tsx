@@ -6,7 +6,15 @@ import { PatchCard } from './components/patchCard/patchCard';
 import { PatchEditor } from './components/patchEditor/patchEditor';
 import { IPatch } from './integra7/patch';
 
+declare let io: any
+
 function App() {
+
+  var socket = io("localhost:12345/");
+  socket.on('connect', function() {
+      socket.emit('xxx', {data: 'I\'m connected!'});
+  });
+
   const [patch, setPatch] = useState<IPatch>();
   const onPatchChanged = (patch: IPatch) => {
     setPatch(patch);

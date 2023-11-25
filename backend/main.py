@@ -4,13 +4,16 @@ import rtmidi
 import os
 from data import read_patches
 from flask import Flask, jsonify,request, redirect
+from flask_socketio import SocketIO # https://flask-socketio.readthedocs.io/en/latest/getting_started.html https://socket.io/docs/v4/client-initialization/
 from flask_cors import CORS
 from time import sleep
 from mymidi.MidiOut import MidiOut
 patches:{} = None
 output:MidiOut = None
 app = Flask(__name__, static_url_path='/', static_folder='../frontend/build/')
+app.config['SECRET_KEY'] = config.APP_SECRET
 CORS(app)
+socketio = SocketIO(app, cors_allowed_origins='*') #, logger=True, engineio_logger=True)
 
 @app.route('/')
 def home():
@@ -60,6 +63,10 @@ def wait_for_devices():
         sleep(5)
     return indevice, outdevice
 
+@socketio.on('xxx')
+def handle_json(json):
+    print('received json: ' + str(json))
+
 if __name__=='__main__':
     print("wait for devices")
     indevice, outdevice = wait_for_devices()
@@ -71,6 +78,6 @@ if __name__=='__main__':
     patches = {x.id:x for x in read_patches()}
     print(f"{len(patches)} found")
     print ("starting server")
-    app.run(host= config.HOST, debug=config.DEBUG, port=config.PORT)
+    socketio.run(app, host= config.HOST, debug=config.DEBUG, port=config.PORT)
     print("shutting down")
     output.close()
