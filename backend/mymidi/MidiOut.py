@@ -11,12 +11,15 @@ class MidiOut:
         self.output.close_port()
         del self.output
 
-    def panic(self):
+    def panic(self) -> None:
         for ch in range(0, 15):
             self.cc(ch, 0x7b)
 
-    def cc(self, ch, nr, value = 0):
+    def cc(self, ch:int, nr:int, value:int = 0) -> None:
         self.output.send_message([0xb << 4 | ch, nr, value])
 
-    def pc(self, ch, value):
+    def pc(self, ch:int, value:int) -> None:
         self.output.send_message([0xc << 4 | ch, value])
+
+    def sysex(self, msg:[]) -> None:
+        self.output.send_message(msg)

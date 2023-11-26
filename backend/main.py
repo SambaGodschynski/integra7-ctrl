@@ -8,6 +8,8 @@ from flask_socketio import SocketIO # https://flask-socketio.readthedocs.io/en/l
 from flask_cors import CORS
 from time import sleep
 from mymidi.MidiOut import MidiOut
+from integra7.sysex import create_msg, to_string
+
 patches:{} = None
 output:MidiOut = None
 app = Flask(__name__, static_url_path='/', static_folder='../frontend/build/')
@@ -65,24 +67,9 @@ def wait_for_devices():
 
 @socketio.on('setValue')
 def set_value(message):
-    '''
-    	globals.communicator.dt1 = function(addr, v) {
-
-		var dataS = toHexStr(addr, ADDR_SIZE);
-
-		for (var i = 0, len = v.length; i < len; i++) {
-			if (v[i] < 0x10)
-				dataS += '0';
-			dataS += v[i].toString(16);
-		}
-
-		var msg = ROLAND_DT1 + dataS; msg += (chksum(dataS) + 'F7');
-
-		queue.push(msg);
-	};
-
-    '''
     print('received value: ' + str(message))
+    msg = create_msg(message['address'], message['value'])
+    output.sysex(msg)
 
 if __name__=='__main__':
     print("wait for devices")
