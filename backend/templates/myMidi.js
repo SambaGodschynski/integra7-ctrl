@@ -26,23 +26,17 @@ function MyWebMidi() {
             }));
         return result;
     };
-    const onMidiMessageReceived = (index, msg) => {
-        if (msg.rawData[0] !== 0xf0) {
-            console.log(`unhandled message received ${msg.type}`)
-            return;
-        }
-        const hexStr = bytestoHexStr(msg.rawData);
+    const onMidiMessageReceived = (index, hexStr) => {
         console.log(`RECEIVED: ${hexStr}`);
         const fkey = this.inPortDelegateFuncName[index]; //  _rwc_0is$
         window[fkey]("midiInputMessage", hexStr);
     };
+    MyBackend.setCallback(onMidiMessageReceived);
     const connectInput = async (index, inputObj) => {
         inputObj = JSON.parse(inputObj);
         const input = this.allMidiInputs
             .find(x => x === inputObj["MIDIEndpointUIDKey"]);
         MyBackend.connectInput(index, input);
-        //const listener = input.addListener("midimessage", onMidiMessageReceived.bind(this, index));
-        //this.activeInputListeners[index] = listener;
     };
     const connectOutput = async (index, outputObj) => {
         outputObj = JSON.parse(outputObj);

@@ -16,6 +16,13 @@ def get_midi_inputs() -> []:
     ports = rtmidi.MidiIn().get_ports()
     return ports
 
+def _message_received(socket, index, msg_bytes):
+    hex_str = bytearray(msg_bytes).hex().upper()
+    socket.emit("message_received", {
+        "hexString": hex_str,
+        "index": index
+    })
+
 class Integra7SocketNamespace(Namespace):
     def on_send_midi(self, message):
         index = message['index']
@@ -33,7 +40,7 @@ class Integra7SocketNamespace(Namespace):
         index = message['index']
         input_ = message['inputId']
         deviceid = [idx for idx, name in enumerate(get_midi_inputs()) if name == input_][0]
-        active_inputs[index] = MidiInput(deviceid)
+        active_inputs[index] = MidiInput(deviceid, lambda x: _message_received(self, index, x[0]))
 
 def close():
     for output in active_outputs.values():
