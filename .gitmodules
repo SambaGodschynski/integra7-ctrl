@@ -1,0 +1,3 @@
+[submodule "ext/integra7-editor-web"]
+	path = ext/integra7-editor-web
+	url = git@github.com:SambaGodschynski/integra7-editor-web.git

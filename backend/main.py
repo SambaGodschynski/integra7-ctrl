@@ -3,7 +3,7 @@ import config
 import rtmidi
 import os
 from data import read_patches
-from flask import Flask, jsonify,request, redirect
+from flask import Flask, jsonify,request, redirect, render_template
 from flask_socketio import SocketIO # https://flask-socketio.readthedocs.io/en/latest/getting_started.html https://socket.io/docs/v4/client-initialization/
 from flask_cors import CORS
 from time import sleep
@@ -12,7 +12,7 @@ from integra7.sysex import create_msg, to_string
 
 patches:{} = None
 output:MidiOut = None
-app = Flask(__name__, static_url_path='/', static_folder='../frontend/build/')
+app = Flask(__name__, static_url_path='/', static_folder='../original-editor/')
 app.config['SECRET_KEY'] = config.APP_SECRET
 CORS(app)
 socketio = SocketIO(app, cors_allowed_origins='*') #, logger=True, engineio_logger=True)
@@ -20,6 +20,10 @@ socketio = SocketIO(app, cors_allowed_origins='*') #, logger=True, engineio_logg
 @app.route('/')
 def home():
     return redirect("/index.html", code=302)
+
+@app.route('/index.html')
+def index():
+    return render_template("index.html")
 
 @app.route('/api/patch', methods = ['POST'])
 def post_patch():
