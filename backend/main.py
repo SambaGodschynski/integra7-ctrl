@@ -1,21 +1,16 @@
 #!/bin/env python3
 import config
-import rtmidi
-import os
-from data import read_patches
-from flask import Flask, jsonify,request, redirect, render_template
-from flask_socketio import SocketIO # https://flask-socketio.readthedocs.io/en/latest/getting_started.html https://socket.io/docs/v4/client-initialization/
+from flask import Flask, redirect, render_template
+# https://flask-socketio.readthedocs.io/en/latest/getting_started.html https://socket.io/docs/v4/client-initialization/
+from flask_socketio import SocketIO
 from flask_cors import CORS
-from time import sleep
-from mymidi.MidiOut import MidiOut
-from integra7.sysex import create_msg, to_string
+from integra7_controller import get_midi_outputs, get_midi_inputs, Integra7SocketNamespace, close as close_integra7
 
-patches:{} = None
-output:MidiOut = None
-app = Flask(__name__, static_url_path='/', static_folder='../original-editor/')
+app = Flask(__name__, static_url_path='/', static_folder='../ext/integra7-editor-web')
 app.config['SECRET_KEY'] = config.APP_SECRET
 CORS(app)
 socketio = SocketIO(app, cors_allowed_origins='*') #, logger=True, engineio_logger=True)
+socketio.on_namespace(Integra7SocketNamespace('/integra7'))
 
 @app.route('/')
 def home():
@@ -25,67 +20,18 @@ def home():
 def index():
     return render_template("index.html")
 
-@app.route('/api/patch', methods = ['POST'])
-def post_patch():
-    patch_id = request.json["id"]
-    ch = request.json["channel"]
-    patch = patches[patch_id]
-    output.cc(ch, 0x0, patch.msb)
-    output.cc(ch, 0x20, patch.lsb)
-    output.pc(ch, patch.pc-1)
-    return jsonify({"result": "OK"})
+@app.route('/myMidi.js')
+def my_midijs():
+    out_ports = get_midi_outputs()
+    in_ports = get_midi_inputs()
+    return render_template("myMidi.js", midi_inputs=in_ports, midi_outputs=out_ports )
 
-@app.route('/api/patches', methods = ['GET'])
-def get_patches():
-    result = list(patches.values())
-    result.sort(key= lambda x : x.id)
-    return jsonify([x.__dict__ for x in result])
-
-def find_midi_port(name, midi_io) -> (int, str):
-    ports = midi_io.get_ports()
-    for idx, port in enumerate(ports):
-        if str(port).find(name) >= 0:
-            return (idx, port)
-    return None
-
-def get_in_and_out():
-    indevice = None
-    outdevice = None
-    if config.INPUT_DEVICE is not None:
-        indevice = find_midi_port(config.INPUT_DEVICE, rtmidi.MidiIn())
-    if config.OUTPUT_DEVICE is not None:
-        outdevice = find_midi_port(config.OUTPUT_DEVICE, rtmidi.MidiOut())
-    return indevice, outdevice
-
-def wait_for_devices():
-    indevice = None
-    outdevice = None
-    while True:
-        indevice, outdevice = get_in_and_out()
-        incheck = config.INPUT_DEVICE is None or indevice is not None
-        outcheck = config.OUTPUT_DEVICE is None or outdevice is not None
-        if incheck and outcheck:
-            break
-        sleep(5)
-    return indevice, outdevice
-
-@socketio.on('setValue')
-def set_value(message):
-    print('received value: ' + str(message))
-    msg = create_msg(message['address'], message['value'])
-    output.sysex(msg)
+@app.route('/backend.js')
+def backendjs():
+    return render_template("backend.js", base_url=f"//{config.HOST}:{config.PORT}")
 
 if __name__=='__main__':
-    print("wait for devices")
-    indevice, outdevice = wait_for_devices()
-    print("devices found:")
-    print("input:", indevice)
-    print("output:", outdevice)
-    output = MidiOut(outdevice)
-    print("reading patches")
-    patches = {x.id:x for x in read_patches()}
-    print(f"{len(patches)} found")
     print ("starting server")
     socketio.run(app, host= config.HOST, debug=config.DEBUG, port=config.PORT)
     print("shutting down")
-    output.close()
+    close_integra7()

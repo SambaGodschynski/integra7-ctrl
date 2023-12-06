@@ -2,9 +2,10 @@ import rtmidi
 
 class MidiOut:
     output = None
-    def __init__(self, device_index:(int, str)):
+    def __init__(self, device_index:int):
+        # pylint: disable=E1101
         self.output = rtmidi.MidiOut()
-        self.output.open_port(device_index[0])
+        self.output.open_port(device_index)
 
     def close(self):
         self.panic()
