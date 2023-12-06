@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="us">
+<head>
+	<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, height=device-height, user-scale=yes, initial-scale=1.0" />
+
+	<title>INTEGRA7 EDITOR</title>
+
+<!-- css -->
+		<link href="css/custom-theme/jquery-ui-1.10.3.custom.min.css" rel="stylesheet">
+		<link href="css/base.css" rel="stylesheet">
+		<link href="css/common.css" rel="stylesheet">
+
+<!-- library -->
+		<script src="js/lib/json2.js"></script>
+		<script src="js/lib/jquery-1.9.1.js"></script>
+		<script src="js/lib/jquery-ui-1.10.3.custom.min.js"></script>
+		<script src="js/lib/webmidi.js"></script>
+<!-- own hacks -->
+		<script src="js/my/app.js"></script>
+		<script src="js/my/webmidi.js"></script>
+
+<!-- roland lib -->
+		<script src="js/native/native_call.js"></script>
+		<script src="js/native/application.js"></script>
+		<script src="js/native/midi_client.js"></script>
+		<script src="js/native/bluetooth_le.js"></script>
+		<script src="js/native/wireless_connect.js"></script>
+
+<!-- global -->
+		<script src="js/globals.js"></script>
+        <script src="js/observer.js"></script>
+		<script src="js/parameter.js"></script>
+		<script src="other_copyright.js"></script>
+		<script src="vst_copyright.js"></script>
+        
+<!-- preset -->
+		<script src="js/view/preset/kit_phrase_tbl.js"></script>
+		<script src="js/view/preset/liv_phrase_tbl.js"></script>
+		<script src="js/view/preset/pat_phrase_tbl.js"></script>
+		<script src="js/view/preset/sna_phrase_tbl.js"></script>
+		<script src="js/view/preset/rhy_phrase_tbl.js"></script>
+
+
+		<script src="js/view/preset/sna_inst.js"></script>
+		<script src="js/view/preset/snd_inst.js"></script>
+		<script src="js/view/preset/category_name.js"></script>
+		<script src="js/view/preset/category_name2.js"></script>
+		<script src="js/view/preset/category_cnv.js"></script>
+
+		<script src="js/view/preset/pcm_drum_kit-gm2.js"></script>
+		<script src="js/view/preset/pcm_drum_kit-preset.js"></script>
+		<script src="js/view/preset/pcm_drum_kit-srx_01.js"></script>
+		<script src="js/view/preset/pcm_drum_kit-srx_03.js"></script>
+		<script src="js/view/preset/pcm_drum_kit-srx_05.js"></script>
+		<script src="js/view/preset/pcm_drum_kit-srx_06.js"></script>
+		<script src="js/view/preset/pcm_drum_kit-srx_07.js"></script>
+		<script src="js/view/preset/pcm_drum_kit-srx_08.js"></script>
+		<script src="js/view/preset/pcm_drum_kit-srx_09.js"></script>
+		<script src="js/view/preset/pcm_drum_kit-tts2_ex.js"></script>
+		<script src="js/view/preset/pcm_drum_kit-tts2_gm2.js"></script>
+		<script src="js/view/preset/pcm_synth-gm2.js"></script>
+		<script src="js/view/preset/pcm_synth-preset.js"></script>
+		<script src="js/view/preset/pcm_synth-srx_01.js"></script>
+		<script src="js/view/preset/pcm_synth-srx_02.js"></script>
+		<script src="js/view/preset/pcm_synth-srx_03.js"></script>
+		<script src="js/view/preset/pcm_synth-srx_04.js"></script>
+		<script src="js/view/preset/pcm_synth-srx_05.js"></script>
+		<script src="js/view/preset/pcm_synth-srx_06.js"></script>
+		<script src="js/view/preset/pcm_synth-srx_07.js"></script>
+		<script src="js/view/preset/pcm_synth-srx_08.js"></script>
+		<script src="js/view/preset/pcm_synth-srx_09.js"></script>
+		<script src="js/view/preset/pcm_synth-srx_10.js"></script>
+		<script src="js/view/preset/pcm_synth-srx_11.js"></script>
+		<script src="js/view/preset/pcm_synth-srx_12.js"></script>
+		<script src="js/view/preset/pcm_synth-tts2_ex.js"></script>
+		<script src="js/view/preset/pcm_synth-tts2_gm2.js"></script>
+		<script src="js/view/preset/sn_acoustic-exp_sn_01.js"></script>
+		<script src="js/view/preset/sn_acoustic-exp_sn_02.js"></script>
+		<script src="js/view/preset/sn_acoustic-exp_sn_03.js"></script>
+		<script src="js/view/preset/sn_acoustic-exp_sn_04.js"></script>
+		<script src="js/view/preset/sn_acoustic-exp_sn_05.js"></script>
+		<script src="js/view/preset/sn_acoustic-preset.js"></script>
+		<script src="js/view/preset/sn_drum_kit-exp_sn_06.js"></script>
+		<script src="js/view/preset/sn_drum_kit-preset.js"></script>
+		<script src="js/view/preset/sn_synth-preset.js"></script>
+
+		<script src="js/view/preset/expansion_name.js"></script>
+		<script src="js/view/preset/scale.js"></script>
+
+		<script src="js/view/preset/wave_list_srx01.js"></script>
+		<script src="js/view/preset/wave_list_srx02.js"></script>
+		<script src="js/view/preset/wave_list_srx03.js"></script>
+		<script src="js/view/preset/wave_list_srx04.js"></script>
+		<script src="js/view/preset/wave_list_srx05.js"></script>
+		<script src="js/view/preset/wave_list_srx06.js"></script>
+		<script src="js/view/preset/wave_list_srx07.js"></script>
+		<script src="js/view/preset/wave_list_srx08.js"></script>
+		<script src="js/view/preset/wave_list_srx09.js"></script>
+		<script src="js/view/preset/wave_list_srx10.js"></script>
+		<script src="js/view/preset/wave_list_srx11.js"></script>
+		<script src="js/view/preset/wave_list_srx12.js"></script>
+		<script src="js/view/preset/wave_list_xv5080.js" ></script>
+		<script src="js/view/preset/wave_list_synth.js" ></script>
+
+
+<!--	<script src="js/event_function.js"></script> -->
+		<script src="js/debug_function.js"></script>
+		<script src="js/view/category_name.js"></script>
+
+<!-- communicator -->
+		<script src="js/communicator/device.js"></script>
+		<script src="js/communicator/communicator.js"></script>
+
+<!-- model -->
+		<script src="js/model/model_def.js"></script>
+		<script src="js/model/model_id.js"></script>
+		<script src="js/model/model_stringer.js"></script>
+		<script src="js/model/model_excmap.js"></script>
+		<script src="js/model/model.js"></script>
+		<script src="js/model/model_excmap_chorus.js"></script>
+		<script src="js/model/model_excmap_reverb.js"></script>
+		<script src="js/model/model_excmap_mfx.js"></script>
+		<script src="js/model/model_excmap_mod.js"></script>
+
+<!-- widget -->
+		<script src="js/view/widget/widget_slider.js"></script>
+		<script src="js/view/widget/widget_menu.js"></script>
+
+<!-- controller -->
+		<script src="js/view/ui_midi_def.js"></script>
+
+		<script src="js/view/scene_base_controller.js"></script>
+		<script src="js/view/scene_base_tone_controller.js"></script>
+		<script src="js/view/scene_base_midi_controller.js"></script>
+		<script src="js/view/scene_base_studioset_view_controller.js"></script>
+
+		<script src="js/debug_function.js"></script>
+
+		<script src="js/view/common.js"></script>
+
+		<script src="js/startup.js"></script>
+	<style>
+
+	</style>
+
+</head>
+<body>
+
+
+<!-- Dialog -->
+<div id="studioSetRenameDialog" title="STUDIO SET RENAME">
+    <center>
+    	<input type="text"  pattern="^[0-9A-Za-z]+$" id="studioSetRename" maxlength="16" style="ime-mode:disabled" />
+    </center>
+</div>
+
+<div id="toneRenameDialog" title="TONE RENAME">
+    <center>
+    	<input type="text"  pattern="^[0-9A-Za-z]+$" id="toneRename" maxlength="12" style="ime-mode:disabled" />
+    </center>
+</div>
+
+<div id="readDialog" title="READ">
+	<span id="readConfirm" class="confirm"></span>
+	<div id="readPrg">
+		<span id="readPrgPer"></span>
+	</div>
+</div>
+
+<div id="syncDialog" title="SYNCHRONIZATION">
+	<div id="syncPrg">
+		<span id="syncPrgPer"></span>
+	</div>
+</div>
+
+<div id="writeStudiosetDialog" title="STUDIO SET WRITE">
+	<table width="300px" align="center">
+        <tr><td width="35%">Name</td><td width="10%"></td><td id="writeStFrom"></td></tr>
+        <tr><td>Destination</td><td></td><td id="writeStDest"></td></tr>
+    </table>
+	<span class="confirm">Are you sure?</span>
+</div>
+
+<div id="writeToneDialog" title="TONE WRITE">
+	<table width="300px" align="center">
+        <tr><td width="35%">Name</td><td width="10%"></td><td id="writeToneFrom"></td></tr>
+        <tr><td>Destination</td><td></td><td id="writeToneDest"></td></tr>
+    </table>
+	<span class="confirm">Are you sure?</span>
+</div>
+
+<div id ="writeToneDialogError" id="writeToneNG">
+	<span class="confirm">This Tone cannot write.</span>
+</div>
+
+<div class="utilDialog" id="studioSetInit" title="STUDIO SET INITIALIZE">
+	<span class="confirm">Are you sure?</span>
+</div>
+
+<div class="utilDialog" id="partInit" title="PART INITIALIZE">
+    <table style="width:400px">
+        <tr><td>Part : </td><td>Temporary</td><td>0001 : INIT TONE</td><td>Part 1</td></tr>
+    </table>
+	<span class="confirm">Are you sure?</span>
+</div>
+
+<div class="utilDialog" id="soundCtrlInit" title="SOUND CTRL INIT">
+	<span class="confirm">Are you sure?</span>
+</div>
+
+<div class="utilDialog" id="toneInit" title="TONE INIT">
+	<span class="confirm">Are you sure?</span>
+</div>
+
+<div class="utilDialog" id="partialInit" title="PARTIAL INITIALIZE">
+    <table style="width:400px">
+        <tr><td>Partial : </td><td>Temporary</td><td>001 : INIT TONE</td><td><select id="partial"></select></td></tr>
+    </table>
+	<span class="confirm">Are you sure?</span>
+</div>
+
+<!-- cannot partial init -->
+<div class="utilDialogError" id="partialInitNG">
+	<span class="confirm">Cannot edit this tone.</span>
+</div>
+
+<div class="utilDialog" id="partialCopy" title="PARTIAL COPY">
+    <table style="width:400px">
+        <tr><td>Source : </td><td><select id="partialCopySrc"></select></td><td>001 : INIT TONE</td><td><select id="partialCopySrcPartial"></select></td></tr>
+        <tr><td>Destination : </td><td>Temporary</td><td>0001 : INIT TONE</td><td><select id="partialCopyDestPartial"></select></td></tr>
+    </table>
+	<span class="confirm">Are you sure?</span>
+</div>
+
+<div class="utilDialog" id="device" title="DEVICE">
+    <table style="width:400px" align="center">
+        <tr><td>Device ID</td><td><select id="deviceId"></select></td><tr>
+        <tr><td>Input Device</td><td><select id="inputDevice"></select></td></tr>
+        <tr><td>Output Device</td><td><select id="outputDevice"></select></td></tr>
+    </table>
+	<span class="confirm">Are you sure?</span>
+</div>
+
+<div class="version" id="version" title="VERSION">
+    <center>
+    	Version : <span id="versionNumber"></span><span id="buildNumber"></span>
+    </center>
+    <center>
+		<span id="copyrightText"></span><br><br>
+		<span id="vst_copyrightText"></span>
+		<span id="other_copyrightText"></span>
+	</center>
+</div>
+
+
+<div id="prg_Dialog" title="LOADING...">
+	<div id="expPrg"></div>
+</div>
+
+<div id="toneRead_Dialog" title="READING...">
+	<div id="toneReadPrg"></div>
+</div>
+
+<div id="connectMsg">
+	<span class="confirm">Connection Error.</span>
+</div>
+
+<!-- Error Dialog -->
+<div id="midiInputPortConnectFailedDialog" class="errorDialog" title="ERROR">
+	<center>
+		<span id="midiInputPortConnectFailedMsg"></span><br>
+		<span id="midiInputPortConnectFailedMsgKey"></span>
+	</center>
+</div>
+
+<div id="midiOutputPortConnectFailedDialog" class="errorDialog" title="ERROR">
+	<center>
+		<span id="midiOutputPortConnectFailedMsg"></span><br>
+		<span id="midiOutputPortConnectFailedMsgKey"></span>
+	</center>
+</div>
+
+<div id="midiErrorDidOccurDialog" class="errorDialog" title="ERROR">
+	<center>
+		<span id="midiErrorDidOccurMsg"></span><br>
+		<span id="midiErrorDidOccurMsgKey"></span>
+	</center>
+</div>
+
+
+<!-- frame -->
+<div id="headerArea">
+    <iframe id="header" name="header" src="scene_indextop.html" frameborder="0"></iframe>
+</div>
+<div id="menuArea">
+    <iframe id="menu" name="menu" src="scene_studioset_menu.html" frameborder="0"></iframe>
+</div>
+<div id="contentsArea">
+    <iframe id="contents" name="contents" src="scene_studioset_partview.html" frameborder="0"></iframe>
+</div>
+
+</body>
+</html>
