@@ -1,5 +1,6 @@
 import rtmidi
 
+
 class MidiInput(object):
     def __init__(self, device_id: int, callback) -> None:
         # pylint: disable=E1101

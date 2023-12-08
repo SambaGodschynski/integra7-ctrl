@@ -1,5 +1,5 @@
 import rtmidi
-from flask_socketio import Namespace, emit
+from flask_socketio import Namespace
 from mymidi.MidiOut import MidiOut
 from mymidi.MidiInput import MidiInput
 

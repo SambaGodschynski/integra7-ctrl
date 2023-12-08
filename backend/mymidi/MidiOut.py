@@ -1,11 +1,15 @@
 import rtmidi
 
+_CURRENT_OUTPUT = None
+
 class MidiOut:
     output = None
     def __init__(self, device_index:int):
         # pylint: disable=E1101
         self.output = rtmidi.MidiOut()
         self.output.open_port(device_index)
+        global _CURRENT_OUTPUT
+        _CURRENT_OUTPUT = self
 
     def close(self):
         self.panic()
@@ -24,3 +28,6 @@ class MidiOut:
 
     def sysex(self, msg:[]) -> None:
         self.output.send_message(msg)
+
+def current_midiout() -> MidiOut:
+    return _CURRENT_OUTPUT
