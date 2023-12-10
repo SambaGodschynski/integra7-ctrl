@@ -35,6 +35,6 @@ def backendjs():
 if __name__=='__main__':
     print ("starting server")
     app.config['SERVER_NAME'] = f"{config.HOST}:{config.PORT}" # without subdomain will not work
-    socketio.run(app, host= config.HOST, debug=config.DEBUG, port=config.PORT)
+    socketio.run(app, host= config.HOST, debug=config.DEBUG, port=config.PORT, allow_unsafe_werkzeug=True)
     print("shutting down")
     close_integra7()
